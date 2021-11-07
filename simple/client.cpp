@@ -67,13 +67,6 @@ int main(int argc, char const *argv[])
    }
 
    printf("Client connected to server.\n");
-
-   // int stringLen = strlen(message);
-
-   // if (send(client_fd, message, stringLen, 0) != stringLen)
-   // {
-   //    return manageError("send() sent a different number of bytes than expected", client_fd);
-   // }
    
    while (message != "close")
    {
