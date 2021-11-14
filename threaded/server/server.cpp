@@ -30,16 +30,20 @@ void manageError(char *errorMessage, int socket_id)
 void client_manage(int connection_socket_id)
 {
    char buffer[BUFFERSIZE] = {0};
-   int valread;
+   int valread = 0;
    char *hello = "Message received!";
    printf("Connection accepted in a new thead from socket: %d\n", connection_socket_id);
-   while (buffer != "close")
+   while (buffer != "close" && valread >= 0)
    {
       memset(buffer, 0, sizeof(buffer));
-      valread = recv(connection_socket_id, buffer, 1024, 0);
-      printf("Message from socket %d: %s\n", connection_socket_id, buffer);
-      send(connection_socket_id, hello, strlen(hello), 0);
-      printf("Hello message sent\n");
+      valread = recv(connection_socket_id, buffer, BUFFERSIZE, 0);
+      if (valread > 0) {
+         printf("Message from socket %d: %s\n", connection_socket_id, buffer);
+         send(connection_socket_id, hello, strlen(hello), 0);
+         printf("Hello message sent\n");
+      } else {
+         printf("Socket %d disconnected\n", connection_socket_id);
+      }
    }
    closesocket(connection_socket_id);
 }
